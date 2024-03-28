@@ -1,0 +1,78 @@
+    {{!-- Citation Scope: Frontend display of the entity page containing CRUD operations
+    Date: 8/1/2023
+    Originality: Adapted from starter code
+    Source: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<head>
+    <meta charset='utf-8'>
+    <title>Genres</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta+Malar&family=Playfair+Display+SC&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="title-container">
+            <h2>Genres</h2>
+        </div>
+        <!-- Navigation Links -->
+        <div class="menu-container">
+            <nav>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="books.hbs">BOOKS</a></li>
+                    <li><a href="authors.hbs">AUTHORS</a></li>
+                    <li><a href="genres.hbs">GENRES</a></li>
+                    <li><a href="customers.hbs">CUSTOMERS</a></li>
+                    <li><a href="orders.hbs">ORDERS</a></li>
+                    <li><a href="order_has_books.hbs">ORDER_HB</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Browse Genre Section -->
+    <section>
+        <h2><strong>Genre List</strong></h2>
+
+        <!-- Genre Table -->
+        <table id="genres-table">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                {{#each data}}
+                <tr data-value="{{this.genre_id}}">
+                    <td>{{this.genre_id}}</td>
+                    <td>{{this.description}}</td>
+                    <td><button onclick="deleteGenre({{this.genre_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+
+<!-- Adding Genres Section -->
+    <section>
+        <h2>Adding Genres</h2>
+        <p>To add a new Genre, please enter the genre and click `Submit`!</p>
+        <form id="add-genre-form" method="POST" action="/add-genre-form">
+            <label for="input-genre">Description: </label>
+            <input type="text" name="input-genre" id="input-genre" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- JavaScript for Deleting Genres -->
+    <script src="./js/delete_genre.js"></script>
+</body>
+

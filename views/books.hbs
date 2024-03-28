@@ -1,0 +1,132 @@
+    {{!-- Citation Scope: Frontend display of the entity page containing CRUD operations
+    Date: 8/1/2023
+    Originality: Adapted from starter code
+    Source: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<head>
+    <meta charset='utf-8'>
+    <title>Books</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta+Malar&family=Playfair+Display+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+   <header>
+        <div class="title-container">
+            <h2>Books</h2>
+        </div>
+        <!-- Navigation Links -->
+        <div class="menu-container">
+            <nav>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="books.hbs">BOOKS</a></li>
+                    <li><a href="authors.hbs">AUTHORS</a></li>
+                    <li><a href="genres.hbs">GENRES</a></li>
+                    <li><a href="customers.hbs">CUSTOMERS</a></li>
+                    <li><a href="orders.hbs">ORDERS</a></li>
+                    <li><a href="order_has_books.hbs">ORDER_HB</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Browse Books Section -->
+    <section>
+        <div id="browse">
+            <h2><strong>Browse Books</strong></h2>
+            <p>Search for specific books by title. Partial titles are OK too but order matters!</p>
+            <form id="search-book-html" method='GET' action='/books.hbs'>
+                <label for="input-title">Search Title: </label>
+                <input type="text" name="title" id="input-title-html-search">
+                <input type="submit">
+                <a href='/'><button>Reset</button></a>
+            </form>
+        </div>
+
+        <!-- Book Table -->
+        <table id="book-table">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                {{#each data}}
+                <tr data-value="{{this.book_id}}">
+                    <td>{{this.book_id}}</td>
+                    <td>{{this.title}}</td>
+                    <td>{{this.author_id}}</td>
+                    <td>{{this.genre_id}}</td>
+                    <td>{{formatPrice this.price}}</td>
+                    <td>{{this.stock}}</td>
+                    <td><button onclick="deleteBook({{this.book_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Adding Books Section -->
+    <section>
+        <h2>Adding Books</h2>
+        <p>To add a new Book, please fill in the information below and click `Submit`!</p>
+        <form id="add-book-form" method="POST" action="/add-book-form">
+            <label for="input-title">Title: </label>
+            <input type="text" name="input-title" id="input-title" required>
+            <label>Author ID: </label>
+            <select name="input-author" id="input-author">
+                <option value="">Select an Author</option>
+                {{#each authors}}
+                <option value="{{this.author_id}}">{{this.author_id}}:{{this.author_name}}</option>
+                {{/each}}
+            </select>
+            <label for="input-genre">Genre ID: </label>
+            <select name="input-genre" id="input-genre">
+                <option value="">Select a Genre (optional)</option>
+                {{#each genres}}
+                <option value="{{this.genre_id}}">{{this.genre_id}}:{{this.description}}</option>
+                {{/each}}
+            </select>
+            <label for="input-price">Price: </label>
+            <input type="number" step="0.01" name="input-price" id="input-price" min="0" required>
+            <label for="input-stock">Stock: </label>
+            <input type="number" name="input-stock" id="input-stock" min="0" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- Updating A Book Section -->
+    <section>
+        <h2>Updating A Book</h2>
+        <p>To update a specific book, select the title from the drop-down menu and update it with the new information</p>
+        <form id="update-book-form-ajax">
+            <label for="input-title">Title: </label>
+            <select name="input-title" id="mySelect">
+                <option value="test">Select a Book</option>
+                {{#each data}}
+                <option value="{{this.book_id}}">{{this.title}}</option>
+                {{/each}}
+            </select>
+            <label for="input-price">Price: </label>
+            <input type="number" step="0.01" name="input-price" id="input-price-update" min="0" required>
+            <label for="input-stock">Stock: </label>
+            <input type="number" name="input-stock" id="input-stock-update" min="0" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- JavaScript for Deleting Books -->
+    <script src="./js/delete_book.js"></script>
+
+    <!-- JavaScript for Updating Books -->
+    <script src="./js/update_book.js"></script>
+</body>
+

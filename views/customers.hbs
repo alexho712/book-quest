@@ -1,0 +1,110 @@
+    {{!-- Citation Scope: Frontend display of the entity page containing CRUD operations
+    Date: 8/1/2023
+    Originality: Adapted from starter code
+    Source: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<head>
+    <meta charset='utf-8'>
+    <title>Customers</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta+Malar&family=Playfair+Display+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="title-container">
+            <h2>Customers</h2>
+        </div>
+        <!-- Navigation Links -->
+        <div class="menu-container">
+            <nav>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="books.hbs">BOOKS</a></li>
+                    <li><a href="authors.hbs">AUTHORS</a></li>
+                    <li><a href="genres.hbs">GENRES</a></li>
+                    <li><a href="customers.hbs">CUSTOMERS</a></li>
+                    <li><a href="orders.hbs">ORDERS</a></li>
+                    <li><a href="order_has_books.hbs">ORDER_HB</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Browse Customers Section -->
+    <section>
+        <h2><strong>Customer List</strong></h2>
+
+        <!-- Customer Table -->
+        <table id="customers-table">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                {{#each data}}
+                <tr data-value="{{this.customer_id}}">
+                    <td>{{this.customer_id}}</td>
+                    <td>{{this.customer_name}}</td>
+                    <td>{{this.address}}</td>
+                    <td>{{this.phone_number}}</td>
+                    <td>{{this.total_order_count}}</td>
+                    <td><button onclick="deleteCustomer({{this.customer_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+
+
+<!-- Adding Customers Section -->
+    <section>
+        <h2>Adding Customers</h2>
+        <p>To add a new Customer, please fill in the following information and click `Submit`!</p>
+        <form id="add-customer-form" method="POST" action="/add-customer-form">
+            <label for="input-customer-name">Customer Name: </label>
+            <input type="text" name="input-customer-name" id="input-customer-name" required>
+            <label for="input-address">Address: </label>
+            <input type="text" name="input-address" id="input-address" required>
+            <label for="input-phone">Phone Number: </label>
+            <input type="text" name="input-phone" id="input-phone" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- Updating A Customer Section -->
+    <section>
+        <h2>Updating A Customer</h2>
+        <p>To update a specific customer, select the name from the drop-down menu and update that customer with the new information</p>
+        <form id="update-customer-form-ajax">
+            <label for="input-name">Customer Name: </label>
+            <select name="input-name" id="mySelect">
+                <option value="test">Select a Customer</option>
+                {{#each data}}
+                <option value="{{this.customer_id}}">{{this.customer_name}}</option>
+                {{/each}}
+            </select>
+            <label for="input-address">Address: </label>
+            <input type="text" name="input-address" id="input-address-update" required>
+            <label for="input-phone">Phone Number: </label>
+            <input type="text" name="input-phone" id="input-phone-update" required>
+            <label for="input-count">Total Order Count: </label>
+            <input type="number" name="input-count" id="input-count-update" min="0" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- JavaScript for Deleting Customers -->
+    <script src="./js/delete_customer.js"></script>
+
+    <!-- JavaScript for Updating Customers -->
+    <script src="./js/update_customer.js"></script>
+</body>

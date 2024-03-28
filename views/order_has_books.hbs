@@ -1,0 +1,129 @@
+    {{!-- Citation Scope: Frontend display of the entity page containing CRUD operations
+    Date: 8/1/2023
+    Originality: Adapted from starter code
+    Source: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<head>
+    <meta charset='utf-8'>
+    <title>Order has Books</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta+Malar&family=Playfair+Display+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+   <header>
+        <div class="title-container">
+            <h2>Order has Books</h2>
+        </div>
+        <!-- Navigation Links -->
+        <div class="menu-container">
+            <nav>
+                <ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="books.hbs">BOOKS</a></li>
+                    <li><a href="authors.hbs">AUTHORS</a></li>
+                    <li><a href="genres.hbs">GENRES</a></li>
+                    <li><a href="customers.hbs">CUSTOMERS</a></li>
+                    <li><a href="orders.hbs">ORDERS</a></li>
+                    <li><a href="order_has_books.hbs">ORDER_HB</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<!-- Browse Order has Books Section -->
+    <section>
+        <div id="browse">
+            <h2><strong>Order has Books List</strong></h2>
+        </div>
+
+        <!-- Orders Table -->
+        <table id="order-has-books-table">
+            <!-- Table Header -->
+            <thead>
+                <tr>
+                    {{#each data.[0]}}
+                    <th>{{@key}}</th>
+                    {{/each}}
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <!-- Table Body -->
+            <tbody>
+                {{#each data}}
+                <tr data-value="{{this.order_has_books_id}}">
+                    <td>{{this.order_has_books_id}}</td>
+                    <td>{{this.book_id}}</td>
+                    <td>{{this.order_id}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td><button onclick="deleteOrderHasBooks({{this.order_has_books_id}})">Delete</button></td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Adding Order has Books Section -->
+    <section>
+        <h2>Adding Order has Books</h2>
+        <p>To add a new Order has Books row, please fill in the information below and click `Submit`!</p>
+        <form id="add-order-has-books-form" method="POST" action="/add-order-has-books-form">
+            <label>Book ID: </label>
+            <select name="input-book" id="input-book">
+                <option value="">Select a Book</option>
+                {{#each books}}
+                <option value="{{this.book_id}}">{{this.book_id}}:{{this.title}}</option>
+                {{/each}}
+            </select>
+            <label>Order ID: </label>
+            <select name="input-order" id="input-order">
+                <option value="">Select an Order</option>
+                {{#each orders}}
+                <option value="{{this.order_id}}">{{this.order_id}}</option>
+                {{/each}}
+            </select>
+            <label for="input-quantity">Quantity: </label>
+            <input type="number" name="input-quantity" id="input-quantity" min="1" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- Updating An Order has Books Section -->
+    <section>
+        <h2>Updating An Order has Books</h2>
+        <p>To update a specific order has books row, select the order has books ID from the drop-down menu and update it with the new information</p>
+        <form id="update-order-has-books-form-ajax">
+            <label for="input-order">Order has Books ID: </label>
+            <select name="input-order" id="mySelect">
+                <option value="test">Select an Order has Books ID</option>
+                {{#each data}}
+                <option value="{{this.order_has_books_id}}">{{this.order_has_books_id}}</option>
+                {{/each}}
+            </select>
+            <label>Book ID: </label>
+            <select name="input-book" id="input-book-update">
+                <option value="">Select a Book</option>
+                {{#each books}}
+                <option value="{{this.book_id}}">{{this.book_id}}:{{this.title}}</option>
+                {{/each}}
+            </select>
+            <label>Order ID: </label>
+            <select name="input-order" id="input-order-update">
+                <option value="">Select an Order</option>
+                {{#each orders}}
+                <option value="{{this.order_id}}">{{this.order_id}}</option>
+                {{/each}}
+            </select>
+            <label for="input-quantity">Quantity: </label>
+            <input type="number" name="input-quantity" id="input-quantity-update" min="1" required>
+            <input type="submit">
+        </form>
+    </section>
+
+    <!-- JavaScript for Deleting Order has Books Row -->
+    <script src="./js/delete_order_has_books.js"></script>
+
+    <!-- JavaScript for Updating Order has Books Row -->
+    <script src="./js/update_order_has_books.js"></script>
+</body>
