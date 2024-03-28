@@ -3,7 +3,7 @@ This is a project simulating development of an online platform for the expansion
 
 Currently, the application is not being hosted but here are screen shots that display the web application and the schema for the entities and their relationships.
 
-![Alt text](/images/home.png?raw=true)
+![Alt text](/images/home.PNG?raw=true)
 
 
 # Technologies Used
